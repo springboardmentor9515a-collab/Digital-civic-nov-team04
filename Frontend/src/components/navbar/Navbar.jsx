@@ -313,18 +313,6 @@ export default function Navbar() {
           <Typography variant="h6" sx={{ fontWeight: 'bold', letterSpacing: 1 }}>
             Civix
           </Typography>
-          {/* 
-          
-          {!isMobile && (
-            <Typography
-              variant="caption"
-              sx={{ bgcolor: 'yellow', color: 'black', px: 1, borderRadius: 1, ml: 1 }}
-            >
-              Beta
-            </Typography>
-          )}
-          
-          */}
         </Box>
 
         {/* Center: Navigation Links (desktop) */}
