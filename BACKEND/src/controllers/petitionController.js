@@ -72,7 +72,39 @@ const getPetitionById = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+const Signature = require("../models/Signature");
+
+// SIGN PETITION
+const signPetition = async (req, res) => {
+  try {
+    const petitionId = req.params.id;
+
+    const petition = await Petition.findById(petitionId);
+    if (!petition) {
+      return res.status(404).json({ message: "Petition not found" });
+    }
+
+    if (petition.status !== "active") {
+      return res.status(400).json({ message: "Petition is not active" });
+    }
+
+    await Signature.create({
+      petition: petitionId,
+      user: req.user._id,
+    });
+
+    res.status(201).json({ message: "Petition signed successfully" });
+  } catch (error) {
+    // Duplicate sign (unique index error)
+    if (error.code === 11000) {
+      return res.status(409).json({ message: "Already signed this petition" });
+    }
+
+    console.error("Sign petition error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
 
 
-module.exports = { createPetition, getPetitions, getPetitionById };
+module.exports = { createPetition, getPetitions, getPetitionById , signPetition ,};
 
