@@ -33,6 +33,10 @@ const limiter = rateLimit({
 app.use(limiter);
 
 app.use('/api/auth', authRoutes);
+
+const petitionRoutes = require("./src/routes/petitionRoutes");
+app.use("/api/petitions", petitionRoutes);
+
 app.use('/api/test', testRoutes);
 
 app.get('/api/test-direct', (req, res) => {
