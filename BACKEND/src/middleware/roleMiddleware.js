@@ -1,4 +1,4 @@
-const allowRoles = (...roles) => {
+const authorizeRoles = (...roles) => {
   return (req, res, next) => {
     if (!req.user) {
       return res.status(401).json({ message: "Not authenticated" });
@@ -12,7 +12,12 @@ const allowRoles = (...roles) => {
   };
 };
 
-const isCitizen = allowRoles("citizen");
-const isOfficial = allowRoles("official");
+// Backward compatibility for Milestone 2
+const isCitizen = authorizeRoles("citizen");
+const isOfficial = authorizeRoles("official");
 
-module.exports = { isCitizen, isOfficial };
+module.exports = {
+  authorizeRoles,
+  isCitizen,
+  isOfficial,
+};

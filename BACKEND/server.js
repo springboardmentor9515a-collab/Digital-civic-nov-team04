@@ -8,6 +8,8 @@ const rateLimit = require('express-rate-limit');
 const connectDB = require('./src/config/db');
 const authRoutes = require('./src/routes/authRoutes');
 const testRoutes = require('./src/routes/testRoutes');
+const pollRoutes = require('./src/routes/pollRoutes');
+
 
 dotenv.config();
 
@@ -36,6 +38,8 @@ app.use('/api/auth', authRoutes);
 
 const petitionRoutes = require("./src/routes/petitionRoutes");
 app.use("/api/petitions", petitionRoutes);
+
+app.use('/api/polls', pollRoutes);
 
 app.use('/api/test', testRoutes);
 
