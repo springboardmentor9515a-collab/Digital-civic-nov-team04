@@ -12,7 +12,6 @@ const {
 const { protect, protectOptional } = require("../middleware/authMiddleware");
 const { isCitizen } = require("../middleware/roleMiddleware");
 
-// Create petition (citizen only)
 router.post("/", protect, isCitizen, createPetition);
 
 // Get all petitions (public, role-aware)
