@@ -1,5 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Spline from '@splinetool/react-spline';
+import Login from './components/Login';
+import Register from './components/Register';
+import Dashboard from './components/Dashboard';
+import './App.css';
 
 function AboutSection() {
   return (
@@ -104,7 +108,7 @@ function ContactSection() {
         <div className="contact-left">
           <div className="contact-card">
             <div className="contact-badge">Support & Partnerships</div>
-            <h3>Let’s collaborate for transparent governance</h3>
+            <h3>Let's collaborate for transparent governance</h3>
             <p>
               Share your ideas, partnership requests, or platform feedback. Our team is ready to
               help you launch petitions, polls, and reporting dashboards tailored to your community.
@@ -163,8 +167,78 @@ function ContactSection() {
 
 export default function App() {
   const [panel, setPanel] = useState(null); // 'about' | 'contact' | null
+  const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+  const [showDashboard, setShowDashboard] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Check if user is already logged in
+    checkAuth();
+  }, []);
+
+  const checkAuth = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/me', {
+        credentials: 'include',
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data.user);
+        setShowDashboard(true);
+      }
+    } catch (err) {
+      console.error('Auth check failed:', err);
+    }
+  };
 
   const closePanel = () => setPanel(null);
+
+  const handleLoginClick = () => {
+    setShowLogin(true);
+    setShowRegister(false);
+    setPanel(null);
+  };
+
+  const handleRegisterClick = () => {
+    setShowRegister(true);
+    setShowLogin(false);
+    setPanel(null);
+  };
+
+  const handleLogin = (userData) => {
+    setUser(userData);
+    setShowLogin(false);
+    setShowDashboard(true);
+  };
+
+  const handleRegister = (userData) => {
+    setUser(userData);
+    setShowRegister(false);
+    setShowDashboard(true);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    setShowDashboard(false);
+    setShowLogin(false);
+    setShowRegister(false);
+  };
+
+  const handleSwitchToRegister = () => {
+    setShowLogin(false);
+    setShowRegister(true);
+  };
+
+  const handleSwitchToLogin = () => {
+    setShowRegister(false);
+    setShowLogin(true);
+  };
+
+  // Show Dashboard if user is logged in
+  if (showDashboard && user) {
+    return <Dashboard user={user} onLogout={handleLogout} />;
+  }
 
   return (
     <div className="app-root">
@@ -186,6 +260,16 @@ export default function App() {
           <button className="nav-link nav-button" onClick={() => setPanel('contact')}>
             Contact Us
           </button>
+          {!user && (
+            <>
+              <button className="nav-link nav-button nav-button-primary" onClick={handleLoginClick}>
+                Login
+              </button>
+              <button className="nav-link nav-button nav-button-secondary" onClick={handleRegisterClick}>
+                Sign Up
+              </button>
+            </>
+          )}
         </nav>
       </header>
 
@@ -205,6 +289,22 @@ export default function App() {
           </div>
         )}
       </main>
+
+      {/* Login Modal */}
+      {showLogin && (
+        <Login
+          onLogin={handleLogin}
+          onSwitchToRegister={handleSwitchToRegister}
+        />
+      )}
+
+      {/* Register Modal */}
+      {showRegister && (
+        <Register
+          onRegister={handleRegister}
+          onSwitchToLogin={handleSwitchToLogin}
+        />
+      )}
     </div>
   );
 }

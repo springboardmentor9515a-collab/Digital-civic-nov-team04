@@ -24,6 +24,11 @@ body {
   scroll-behavior: smooth;
 }
 
+/* Allow scrolling when dashboard is active */
+body.dashboard-active {
+  overflow: auto;
+}
+
 /* App wrapper */
 .app-root {
   position: relative;
@@ -589,3 +594,4 @@ section {
 .hero-spacer {
   height: 100vh; /* so Home = full Spline screen */
 }
+

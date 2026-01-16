@@ -6,3 +6,4 @@ module.exports = {
   cacheDir: path.join(os.tmpdir(), 'vite-cache-landing-page'),
   plugins: [react()],
 }
+
