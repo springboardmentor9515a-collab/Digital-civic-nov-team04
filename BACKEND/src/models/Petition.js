@@ -43,6 +43,28 @@ const petitionSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    officialResponse: {
+  type: String,
+  default: null
+},
+
+respondedBy: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "User",
+  default: null
+},
+
+respondedAt: {
+  type: Date,
+  default: null
+},
+
+status: {
+  type: String,
+  enum: ["active", "under_review", "closed"],
+  default: "active"
+}
+
   },
   {
     timestamps: true,
