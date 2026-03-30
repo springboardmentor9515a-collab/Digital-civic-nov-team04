@@ -2,7 +2,7 @@
 
 [![Watch Demo](./assets/demo.png)](https://drive.google.com/file/d/1ynWTj8uE_jVHdnjjfoUsA8ySZAqxmLvL/view?usp=sharing)
 
-🚀 **Live Demo:** *(Add after deployment)*
+
 🎥 **Full Demo Video:** https://drive.google.com/file/d/1ynWTj8uE_jVHdnjjfoUsA8ySZAqxmLvL/view?usp=sharing
 
 ---
